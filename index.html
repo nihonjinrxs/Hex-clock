@@ -89,9 +89,9 @@ function refreshData()
 {
     var x = 1,  // x = seconds
         d = new Date(),
-        h = d.getHours() >= 9 ? d.getHours() : '0' + d.getHours(),
-        m = d.getMinutes() >= 9 ? d.getMinutes() : '0' + d.getMinutes(),
-        s = d.getSeconds() >= 9 ? d.getSeconds() : '0' + d.getSeconds(),
+        h = d.getHours() > 9 ? d.getHours() : '0' + d.getHours(),
+        m = d.getMinutes() > 9 ? d.getMinutes() : '0' + d.getMinutes(),
+        s = d.getSeconds() > 9 ? d.getSeconds() : '0' + d.getSeconds(),
         hex = document.getElementById('hex'),
         grad = document.getElementById('grad'),
         color = '#'+h+m+s,
