@@ -3,8 +3,8 @@
 <html lang="en">
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<meta name="viewport" content="width=device-width, user-scalable=yes">
-<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="viewport" content="width=device-width, minimal-ui">
+<meta name="apple-mobile-web-app-capable" content="yes">
 
 <title>Hex clock</title>
 <meta name="description" content="Modified from http://www.jacopocolo.com/hexclock">
@@ -99,7 +99,7 @@ function refreshData()
         hex = document.getElementById('hex'),
         grad = document.getElementById('grad'),
         color = '#'+h+m+s,
- 	    textcolor = '#' + h + ":" + m + ":" + s;
+ 	    textcolor = '#' + h + m + s;
  	    
 	switch (sM.length) {
 		case 1:
