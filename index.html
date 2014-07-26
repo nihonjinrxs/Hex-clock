@@ -13,6 +13,7 @@ html body {
 	height: 100%;
 	width: 100%;
 	letter-spacing: 2px;
+	line-height: 1.4;
 }
 .background {
 	width: 100%;
@@ -25,7 +26,7 @@ html body {
 	color: white;
 	font-family: helvetica neue, Helvetica, Arial, sans-serif;
 	text-align: center;
-	font-size: 4.5em;
+	font-size: 3.25em;
 	display: block;
 	min-width: 200px;
 	font-weight: 100;
@@ -71,7 +72,7 @@ html body {
     </div>
     <p id="what">
         <a id="question" href="#" onclick="toggleExplanation();">What is this?</a>
-        <span id="explanation" style="display: none;"> A precise <a href="http://en.wikipedia.org/wiki/Web_colors#Hex_triplet" target="_blank">hexadecimal color</a> clock based on the work of <a href="http://www.jacopocolo.com/hexclock/">jacopocolo</a>. It goes the whole 24 hours color range, from #000000 to #235959. bees added the background gradient - the top gradient is rgb based of the current hex time. For a "flashier" clock, visit <a href="http://thecolourclock.co.uk/" target="_blank">the colour clock</a>.</span>
+        <span id="explanation" style="display: none;">A <a href="http://en.wikipedia.org/wiki/Web_colors#Hex_triplet" target="_blank">hexadecimal color</a> clock based on the work of <a href="http://www.jacopocolo.com/hexclock/">jacopocolo</a>. It goes the whole 24 hours color range, from #000000 to #235959. <a href="melissakate.com">bees</a> added the background gradient - the top value is loosely based on the current seconds since midnight.</span>
     </p>
 </div>
 <script>
@@ -92,12 +93,33 @@ function refreshData()
         h = d.getHours() > 9 ? d.getHours() : '0' + d.getHours(),
         m = d.getMinutes() > 9 ? d.getMinutes() : '0' + d.getMinutes(),
         s = d.getSeconds() > 9 ? d.getSeconds() : '0' + d.getSeconds(),
+        sM = (parseInt(s) + parseInt(m*60) + parseInt(h*3600)*11),
         hex = document.getElementById('hex'),
         grad = document.getElementById('grad'),
         color = '#'+h+m+s,
- 	    rColor = 'rgb('+(h*10)+','+(m*4)+','+(s*4)+')',
- 	    textcolor = '#' + h + ":" + m + ":" + s,
- 	    linearGrad = "linear-gradient(to bottom, " + rColor + " 0%, " + color + " 100%)";
+ 	    textcolor = '#' + h + ":" + m + ":" + s;
+ 	    
+	switch (sM.length) {
+		case 1:
+			sM = '#00000' + sM;
+		break;
+		case 2:
+			sM = '#0000' + sM;
+		break;
+		case 3:
+			sM = '#000' + sM;
+		break;
+		case 4:
+			sM = '#00' + sM;
+		break;
+		case 5:
+			sM = '#0' + sM;
+		break;		
+		default:
+			sM = '#' + sM;
+	}
+            
+    linearGrad = "linear-gradient(to bottom, " + sM + " 0%, " + color + " 100%)";
 
     grad.style.backgroundImage = linearGrad;
     hex.style.backgroundColor = color;
