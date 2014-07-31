@@ -42,7 +42,7 @@
 		vertical-align: middle;
 	}
 
-	#hex {
+	#hex, #time {
 		color: white;
 		font-family: helvetica neue, Helvetica, Arial, sans-serif;
 		text-align: center;
@@ -51,6 +51,11 @@
 		min-width: 200px;
 		font-weight: 100;
 	  	padding: 0;
+	  	cursor: pointer;
+	}
+
+	#time {
+    	display: none;
 	}
 
 	#what {
@@ -88,7 +93,8 @@
 <body>
 	<div class="background" id="grad">
 	    <div class="absolute-center">
-	        <p id="hex">#130718</p>
+	        <p id="hex" onclick="toggleTime();" style="display: block;">#130718</p>
+	        <p id="time" onclick="toggleTime();">12:00:00</p>
 	    </div>
 	    <p id="what">
 	        <a id="question" href="#" onclick="toggleExplanation();">What is this?</a>
@@ -108,17 +114,31 @@
 	    }
 	}
 
-	function refreshData()
-	{
+	function toggleTime() {
+	    var tIme = document.getElementById("time"),
+	        hEx = document.getElementById('hex');
+	    if (hEx.style.display === "block"){
+	        tIme.style.display = "block";
+	        hEx.style.display = "none";
+	    } else {
+	        tIme.style.display = "none";
+	        hEx.style.display = "block";
+	    }
+	}
+
+	function refreshData() {
 	    var x = 1,  // x = seconds
 	        d = new Date(),
 	        h = d.getHours() > 9 ? d.getHours() : '0' + d.getHours(),
 	        m = d.getMinutes() > 9 ? d.getMinutes() : '0' + d.getMinutes(),
 	        s = d.getSeconds() > 9 ? d.getSeconds() : '0' + d.getSeconds(),
+	        rh = h > 12 ? h-12 : h,
+	        rh = rh < 10 ? '0' + rh : rh,
 	        hex = document.getElementById('hex'),
+	        tm = document.getElementById('time'),
 	        grad = document.getElementById('grad'),
-	        color = '#'+h+m+s,
-	 	    textcolor = '#' + h + m + s,
+	 	    color = '#' + h + m + s,
+	 	    time = rh + ':' + m + ':' + s,
 	 	    today = new Date(d.getFullYear(), d.getMonth(), d.getDate()),
 	 	    tonight = new Date(),
 	 	    milliseconds = "" + (d.getTime() - today.getTime()),
@@ -136,8 +156,8 @@
 	    linearGrad = "linear-gradient(to bottom, " + rgb + " 0%, " + color + " 48%, " + color + " 52%, " + r2g2 + " 100%)";
 
 	    grad.style.backgroundImage = linearGrad;
-	   // hex.style.backgroundColor = color;
-	    hex.innerHTML = textcolor;
+	    hex.innerHTML = color;
+	    tm.innerHTML = time;
 
 	    setTimeout(refreshData, x*1000);
 	}
