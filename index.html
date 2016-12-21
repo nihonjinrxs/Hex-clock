@@ -5,7 +5,8 @@
 
 <meta name="viewport" content="width=device-width, user-scalable=yes">
 <title>Hex clock</title>
-<meta name="description" content="Modified from http://www.jacopocolo.com/hexclock">
+<meta name="description"
+      content="Modified from http://www.jacopocolo.com/hexclock and http://beesandtrees.github.io/Hex-clock/">
 <style>
 html body {
 	margin: 0;
@@ -30,6 +31,20 @@ html body {
 	min-width: 200px;
 	font-weight: 100;
   	padding: 1.5em 0;
+}
+
+#wimpy {
+	color: rgba(255, 255, 255, 0.90);
+	font-family: helvetica neue, Helvetica, Arial, sans-serif;
+	display: block;
+	font-size: 0.2em;
+	position: absolute;
+	bottom: 0px;
+	left: 50%;
+	font-weight: 100;
+  -webkit-transform: translate(-50%,0);
+    -ms-transform: translate(-50%,0);
+        transform: translate(-50%,0);
 }
 
 #what {
@@ -71,8 +86,9 @@ html body {
     </div>
     <p id="what">
         <a id="question" href="#" onclick="toggleExplanation();">What is this?</a>
-        <span id="explanation" style="display: none;"> A precise <a href="http://en.wikipedia.org/wiki/Web_colors#Hex_triplet" target="_blank">hexadecimal color</a> clock based on the work of <a href="http://www.jacopocolo.com/hexclock/">jacopocolo</a>. It goes the whole 24 hours color range, from #000000 to #235959. bees added the background gradient - the top gradient is rgb based of the current hex time. For a "flashier" clock, visit <a href="http://thecolourclock.co.uk/" target="_blank">the colour clock</a>.</span>
+        <span id="explanation" style="display: none;"> A precise <a href="http://en.wikipedia.org/wiki/Web_colors#Hex_triplet" target="_blank">hexadecimal color</a> clock, displayed in hexadecimal, based on the work of <a href="http://www.jacopocolo.com/hexclock/">jacopocolo</a>. It goes the whole 24 hours color range, from #000000 to #173b3b. bees added the background gradient - the top gradient is rgb based of the current hex time. nihonjinrxs made it display all hex, instead of decimal.</span>
     </p>
+    <p id="wimpy"></p>
 </div>
 <script>
 
@@ -89,19 +105,32 @@ function refreshData()
 {
     var x = 1,  // x = seconds
         d = new Date(),
-        h = d.getHours() > 9 ? d.getHours() : '0' + d.getHours(),
-        m = d.getMinutes() > 9 ? d.getMinutes() : '0' + d.getMinutes(),
-        s = d.getSeconds() > 9 ? d.getSeconds() : '0' + d.getSeconds(),
+        h = d.getHours(),
+        m = d.getMinutes(),
+        s = d.getSeconds(),
+
         hex = document.getElementById('hex'),
         grad = document.getElementById('grad'),
-        color = '#'+h+m+s,
- 	    rColor = 'rgb('+(h*10)+','+(m*4)+','+(s*4)+')',
- 	    textcolor = '#' + h + ":" + m + ":" + s,
- 	    linearGrad = "linear-gradient(to bottom, " + rColor + " 0%, " + color + " 100%)";
+        wimpy = document.getElementById('wimpy'),
+
+				hs = h > 15 ? h.toString(16) : '0' + h.toString(16),
+				ms = m > 15 ? m.toString(16) : '0' + m.toString(16),
+				ss = s > 15 ? s.toString(16) : '0' + s.toString(16),
+
+        hp = h > 9 ? h : '0' + h,
+				mp = m > 9 ? m : '0' + m,
+				sp = s > 9 ? s : '0' + s,
+
+      	color = '#'+hs+ms+ss,
+ 	    	rColor = 'rgb('+(parseInt(hs, 16)*4)+','+(parseInt(ms, 16)*3)+','+(parseInt(ss, 16)*3)+')',
+ 	    	textcolor = '#' + hs + ":" + ms + ":" + ss,
+ 	    	linearGrad = "linear-gradient(to bottom, " + rColor + " 0%, " + color + " 100%)";
+        nonHex = "( " + hp + ":" + mp + ":" + sp + " )";
 
     grad.style.backgroundImage = linearGrad;
     hex.style.backgroundColor = color;
     hex.innerHTML = textcolor;
+    wimpy.innerHTML = nonHex;
 
     setTimeout(refreshData, x*1000);
 }
